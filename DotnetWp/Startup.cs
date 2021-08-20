@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotnetWp.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +26,9 @@ namespace DotnetWp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddDbContext<WordPressDbContext>(options=>
+                                        options.UseMySql(Configuration.GetConnectionString("Wp-database")
+                                                        ,ServerVersion.AutoDetect(Configuration.GetConnectionString("Wp-database")),null));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
